@@ -1,27 +1,21 @@
+<!-- This file defines the general "template" -->
 <template>
-  <img alt="Vue logo" src="./assets/logo.png" />
-  <HelloWorld msg="Welcome to Your Vue.js + TypeScript App" />
+  <div class="container mx-auto px-4 my-4">
+    <!-- TODO: navigation/header will be here -->
+
+    <!-- Router view renders specific components based on route definition -->
+    <!-- kinda like content section -->
+    <!-- src/router/index.ts -->
+    <router-view></router-view>
+
+    <!-- TODO: footer will be here -->
+  </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
-import HelloWorld from "./components/HelloWorld.vue";
+import { defineComponent } from 'vue';
 
 export default defineComponent({
-  name: "App",
-  components: {
-    HelloWorld,
-  },
+  name: 'App'
 });
 </script>
-
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>
