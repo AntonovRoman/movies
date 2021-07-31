@@ -1,3 +1,42 @@
 body {
-    background-color: red;
+    // background-color: red;
+}
+
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap");
+
+:root {
+  --font: Roboto, sans-serif;
+  --textColor: #374961;
+  --linkActiveColor: #41b783;
+}
+
+#app {
+  font-family: var(--font);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: var(--textColor);
+
+  .logo {
+    width: 20%;
+  }
+}
+
+.header {
+    width: 100%;
+    height: 50px;
+    background: red;
+    position: fixed;
+    z-index: 1;
+}
+  
+.headroom {
+    will-change: transform;
+    transition: transform 200ms linear;
+}
+.headroom--pinned {
+    transform: translateY(0%);
+}
+.headroom--unpinned {
+    transform: translateY(-100%);
 }

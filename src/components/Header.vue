@@ -1,5 +1,21 @@
 <template>
-  <div>
+  <header
+    :class="{ 'headroom--unpinned': scrolled }"
+    v-on="handleScroll"
+    class="headroom header"
+  >
+    <div class="header-banner">
+      <h1>Visit Finland</h1>
+    </div>
+    <div class="clear"></div>
+    <nav>
+      <div class="site-title">Finland</div>
+      <ul>
+        <li><a href="">Archive</a></li>
+        <li><a href="">Events</a></li>
+        <li><a href="">Contact</a></li>
+      </ul>
+    </nav>
     <input
       v-model="searchInput"
       @keyup.enter="onSubmit"
@@ -23,7 +39,7 @@
       "
     />
     <p>{{ searchInput }}</p>
-  </div>
+  </header>
 </template>
 
 <script lang="ts">
