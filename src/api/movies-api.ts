@@ -43,11 +43,11 @@ export interface Movie {
   video: boolean;
   overview: string;
   release_date: string;
+  original_title: string;
   backdrop_path?: string;
   genre_ids?: number[];
   genres?: Genre[];
   status?: Status;
-  original_title: string;
   original_language?: string;
   popularity?: number;
   vote_count?: number;

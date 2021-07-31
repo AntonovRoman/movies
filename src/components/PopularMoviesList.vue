@@ -3,9 +3,11 @@
   <!-- Pre-loader to prevent undefined errors while data is being fetched -->
   <div v-if="moviesStore.state.loading">Loading...</div>
   <ul
+    data-test="popular-movies-list"
     v-else
     role="list"
     class="
+      trolling
       grid grid-cols-2
       gap-x-4 gap-y-8
       sm:grid-cols-3 sm:gap-x-6
@@ -15,6 +17,7 @@
   >
     <!-- For loop to render popular movies -->
     <li
+      data-test="popular-movie-item"
       v-for="movie in moviesStore.state.popularMovies"
       :key="movie.id"
       class="relative"

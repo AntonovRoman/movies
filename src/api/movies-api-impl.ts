@@ -53,3 +53,5 @@ export class MoviesApiImpl implements MoviesApi {
     return await fetchResult.json();
   }
 }
+
+export const moviesApi = new MoviesApiImpl();
