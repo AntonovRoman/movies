@@ -8,10 +8,10 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, inject, ref } from 'vue';
+import { defineComponent, ref } from 'vue';
 import { Movie } from '@/api/movies-api';
-import { MoviesInjectionKey } from '@/symbols';
 import { useRoute } from 'vue-router';
+import { moviesApi } from '@/api/movies-api-impl';
 
 export default defineComponent({
   name: 'Movie',
@@ -27,10 +27,9 @@ export default defineComponent({
     };
   },
   async created(): Promise<void> {
-    const moviesApi = inject(MoviesInjectionKey);
     this.loading = true;
     const movieId = this.route.params.id as string;
-    this.movie = await moviesApi?.getMovie(movieId);
+    this.movie = await moviesApi.getMovie(movieId);
     this.loading = false;
   }
 });
