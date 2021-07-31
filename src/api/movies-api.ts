@@ -29,7 +29,8 @@ export interface MoviesApi {
 
   // TODO: implement method - get the list of official genres for movies.
   // @link https://developers.themoviedb.org/3/genres/get-movie-list
-
+  getMovieRecommendations(id: number): Promise<PaginatedResponse>;
+  
   // TODO: implement method - get a list of recommended movies for a movie.
   // @link https://developers.themoviedb.org/3/movies/get-movie-recommendations
 }

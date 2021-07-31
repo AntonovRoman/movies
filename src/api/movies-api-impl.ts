@@ -16,6 +16,10 @@ export class MoviesApiImpl implements MoviesApi {
     this.apiSecret = process.env.VUE_APP_MOVIES_SECRET_KEY;
     this.apiBaseUrl = process.env.VUE_APP_MOVIES_BASE_URL;
   }
+  getMovieRecommendations(id: number): Promise<PaginatedResponse> {
+    const url = `${this.apiBaseUrl}/movie/${id}/recommendations?api_key=${this.apiSecret}`;
+    return this.withFetch(url);
+  }
 
   async getPopularMovies(): Promise<PaginatedResponse> {
     const url = `${this.apiBaseUrl}/movie/popular?api_key=${this.apiSecret}&language=en-US&page=1`;
