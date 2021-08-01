@@ -1,5 +1,5 @@
 <template>
-  <h1 class="text-3xl font-semi text-gray-900 mb-4">Popular movies</h1>
+  <h1 class="text-3xl font-semi mb-4">Popular movies</h1>
   <!-- Pre-loader to prevent undefined errors while data is being fetched -->
   <div v-if="moviesStore.state.loading">Loading...</div>
   <ul
@@ -29,7 +29,6 @@
           w-full
           aspect-w-10 aspect-h-7
           rounded-lg
-          bg-gray-100
           focus-within:ring-2
           focus-within:ring-offset-2
           focus-within:ring-offset-gray-100
@@ -58,14 +57,13 @@
           block
           text-sm
           font-medium
-          text-gray-900
           truncate
           pointer-events-none
         "
       >
         {{ movie.title }}
       </p>
-      <p class="block text-sm font-medium text-gray-500 pointer-events-none">
+      <p class="block text-sm font-medium pointer-events-none">
         {{ movie.release_date }}
       </p>
     </li>
