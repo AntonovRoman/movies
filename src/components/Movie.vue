@@ -1,6 +1,6 @@
 <template>
   <div v-if="loading">Loading...</div>
-  <div v-else>
+  <div v-else class="m-wrapper">
     <h1 class="text-3xl">{{ movie.title }}</h1>
     <p>{{ movie.overview }}</p>
 

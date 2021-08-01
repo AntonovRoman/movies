@@ -3,6 +3,8 @@ import App from './App.vue';
 import './assets/styles/index.css';
 import './assets/styles/main.scss';
 import router from '@/router';
+import 'swiper/swiper-bundle.css';
+
 
 const app = createApp(App);
 

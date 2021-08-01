@@ -1,15 +1,13 @@
 <!-- This file defines the general "template" -->
 <template>
-  <div class="">
-    <!-- TODO: navigation/header will be here -->
+  <!-- TODO: navigation/header will be here -->
 
-    <!-- Router view renders specific components based on route definition -->
-    <!-- kinda like content section -->
-    <!-- src/router/index.ts -->
-    <router-view></router-view>
+  <!-- Router view renders specific components based on route definition -->
+  <!-- kinda like content section -->
+  <!-- src/router/index.ts -->
+  <router-view></router-view>
 
-    <!-- TODO: footer will be here -->
-  </div>
+  <!-- TODO: footer will be here -->
 </template>
 
 <script lang="ts">

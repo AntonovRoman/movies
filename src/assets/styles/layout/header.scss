@@ -1,7 +1,7 @@
 .header {
     background: #000;
     width: 100%;
-    padding: 25px 0;
+    padding: 15px 0;
     position: relative;
     z-index: 20;
     border-bottom: 1px solid #a1a1a1;
@@ -17,6 +17,8 @@
         position: fixed;
         z-index: 200;
         width: 100%;
+
+        opacity: .7;
     }
 }
 
@@ -65,13 +67,14 @@
     background: #2f2f2f;
     display:table;
     width: 100%;
-    input{
+    .wrap input{
+        font-size: 12px!important;
         float: left;
         background: transparent;
         width: 100%;
         border: 0;
         font-size: 19px;
-        padding: 12px 0 12px 30px;
+        padding: 3px 0 3px 15px;
         color: #484848;
     }
 }
