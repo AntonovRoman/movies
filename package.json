@@ -1,11 +1,4 @@
 {
-  "build": "webpack --mode production",
-  "start": "webpack-dev-server --mode development",
-  "browserslist": [
-    "> 1%",
-    "last 2 versions",
-    "not dead"
-  ],
   "name": "movie",
   "version": "0.1.0",
   "private": true,
@@ -18,7 +11,6 @@
   "dependencies": {
     "core-js": "^3.16.0",
     "query-string": "^7.0.1",
-    "swiper": "^6.8.0",
     "vue": "^3.0.0",
     "vue-router": "^4.0.5"
   },

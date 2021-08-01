@@ -1,4 +1,4 @@
-import { reactive } from 'vue';
+import { computed, ComputedRef, reactive } from 'vue';
 import { Movie, SearchRequest } from '@/api/movies-api';
 import { MOVIES_IMAGE_BASE_URL } from '@/constants';
 import { moviesApi } from '@/api/movies-api-impl';
@@ -22,6 +22,10 @@ export interface MoviesStore {
   searchMovies(request: SearchRequest): Promise<void>;
 
   getMovieImage(poster: string, size?: number): string;
+
+  getBannerMovie(): ComputedRef<Movie>;
+
+  clearSearchMovies(): void;
 }
 
 // this can be exposed and accessed inside our views/components during setup stage
@@ -64,13 +68,28 @@ export const useMovies = (): MoviesStore => {
    */
   const getMovieImage = (poster: string, size?: number): string => {
     const path = size ? `w${size}` : 'original';
-    return `${MOVIES_IMAGE_BASE_URL}/${path}/${poster}`;
+    return `${MOVIES_IMAGE_BASE_URL}/${path}${poster}`;
+  };
+
+  const clearSearchMovies = (): void => {
+    state.searchMovies = [];
+  };
+
+  const getBannerMovie = (): ComputedRef<Movie> => {
+    return computed(
+      () =>
+        state.popularMovies[
+          Math.floor(Math.random() * state.popularMovies.length)
+        ]
+    );
   };
 
   return {
     state,
     fetchPopularMovies,
     searchMovies,
-    getMovieImage
+    getMovieImage,
+    getBannerMovie,
+    clearSearchMovies
   };
 };
