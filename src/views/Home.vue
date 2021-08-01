@@ -1,6 +1,8 @@
 <template>
   <Header></Header>
-  <PopularMoviesList></PopularMoviesList>
+  <main>
+    <PopularMoviesList></PopularMoviesList>
+  </main>
 </template>
 
 <script lang="ts">

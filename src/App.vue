@@ -1,6 +1,6 @@
 <!-- This file defines the general "template" -->
 <template>
-  <div class="container mx-auto px-4 my-4">
+  <div class="">
     <!-- TODO: navigation/header will be here -->
 
     <!-- Router view renders specific components based on route definition -->
