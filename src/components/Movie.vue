@@ -23,8 +23,8 @@ import { moviesApi } from '@/api/movies-api-impl';
 export default defineComponent({
   name: 'Movie',
   setup() {
-    const movie = ref<Movie>();
-    const recommendations = ref<Movie[]>();
+    const movie = ref<Movie>({} as Movie);
+    const recommendations = ref<Movie[]>([] as Movie[]);
     const loading = ref<boolean>(false);
     const route = useRoute();
 
@@ -39,12 +39,11 @@ export default defineComponent({
     this.loading = true;
     const movieId = this.route.params.id as string;
     const parsedMovieId = Number(movieId);
-    this.movie = await moviesApi.getMovie(movieId);
     const moviesResponse = await moviesApi.getMovieRecommendations(
       parsedMovieId
     );
-
-    this.recommendations = moviesResponse.results;
+    this.movie = await moviesApi.getMovie(movieId);
+    this.recommendations = moviesResponse.results || [];
     this.loading = false;
   }
 });

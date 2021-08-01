@@ -6,7 +6,10 @@
     :style="`background: url(${moviesStore.getMovieImage(
       bannerMovie.poster_path
     )}) no-repeat 50% 25%`"
-  ></section>
+  >
+    {{ bannerMovie.overview }}
+    <!-- <span @click="moviesStore.addToWatchlist(bannerMovie)">ADD TO WATCHLIST</span> -->
+  </section>
 </template>
 
 <script lang="ts">

@@ -2,6 +2,7 @@ import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
 import queryString from 'query-string';
 import Home from '@/views/Home.vue';
 import Movie from '@/components/Movie.vue';
+import Watchlist from '@/components/Watchlist.vue';
 
 // @link https://router.vuejs.org/
 const routes: Array<RouteRecordRaw> = [
@@ -14,6 +15,11 @@ const routes: Array<RouteRecordRaw> = [
     path: '/movies/:id',
     name: 'movie',
     component: Movie
+  },
+  {
+    path: '/watchlist',
+    name: 'watchlist',
+    component: Watchlist
   }
 ];
 

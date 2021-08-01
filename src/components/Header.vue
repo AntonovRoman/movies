@@ -9,12 +9,22 @@
           <li><a href="">UPCOMING</a></li>
 
           <li class="header-banner">
-            <a href="#" class="header-logo">
+            <router-link to="/" class="header-logo">
               <img src="@/assets/images/logo.png" alt="logo" />
-            </a>
+            </router-link>
           </li>
 
-          <li><a href="">WATCHLIST</a></li>
+          <li>
+            <router-link to="/watchlist">
+              WATCHLIST
+              <span
+                class="bg-yellow-500 px-2 rounded font-medium"
+                v-if="moviesStore.state.watchList.length"
+              >
+                {{ moviesStore.state.watchList.length }}
+              </span>
+            </router-link>
+          </li>
           <li><a href="">TV</a></li>
           <li><a href="">MOVIES</a></li>
         </ul>
@@ -26,14 +36,17 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
 import SearchMovie from '@/components/SearchMovie.vue';
+import { useMovies } from '@/composables/use-movies';
 
 export default defineComponent({
   name: 'Header',
   components: { SearchMovie },
   setup() {
+    const moviesStore = useMovies();
     const scrolled = ref<boolean>(false);
 
     return {
+      moviesStore,
       scrolled
     };
   }

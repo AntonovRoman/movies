@@ -29,6 +29,11 @@
           :key="foundMovie.id"
         >
           {{ foundMovie.title }}
+          <img
+            :src="moviesStore.getMovieImage(foundMovie.poster_path, 342)"
+            alt=""
+            class="w-6"
+          />
         </li>
       </ul>
     </div>

@@ -2,7 +2,17 @@
   <div class="container">
     <h1 class="text-3xl font-semi mb-4">Popular movies</h1>
     <!-- Pre-loader to prevent undefined errors while data is being fetched -->
-    <div v-if="moviesStore.state.loading">Loading...</div>
+    <div v-if="moviesStore.state.loading" class="lds-grid">
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
     <ul
       data-test="popular-movies-list"
       v-else
@@ -19,7 +29,7 @@
       <!-- For loop to render popular movies -->
       <li
         data-test="popular-movie-item"
-        v-for="movie in moviesStore.state.popularMovies"
+        v-for="movie in moviesStore.state.popularMovies.results"
         :key="movie.id"
         class="relative"
       >
@@ -37,19 +47,18 @@
             overflow-hidden
           "
         >
-          <img
-            :src="moviesStore.getMovieImage(movie.poster_path, 342)"
-            alt=""
-            class="object-cover pointer-events-none group-hover:opacity-75"
-          />
           <!-- Link to the single movie route /movies/:id -->
           <!-- check src/router/index.ts -->
           <router-link
             :to="`/movies/${movie.id}`"
             type="button"
-            class="absolute inset-0 focus:outline-none"
+            class="inset-0 focus:outline-none"
           >
-            <span class="sr-only">View details for {{ movie.title }}</span>
+            <img
+              :src="moviesStore.getMovieImage(movie.poster_path, 342)"
+              alt=""
+              class="object-cover pointer-events-none group-hover:opacity-75"
+            />
           </router-link>
         </div>
         <p class="mt-2 block text-sm font-medium truncate pointer-events-none">
@@ -58,6 +67,47 @@
         <p class="block text-sm font-medium pointer-events-none">
           {{ movie.release_date }}
         </p>
+        <p class="text-yellow-600">
+          <span
+            v-if="moviesStore.inWatchListAlready(movie.id)"
+            class="cursor-not-allowed"
+            >Added
+          </span>
+          <span
+            v-else
+            @click="moviesStore.addToWatchlist(movie)"
+            class="cursor-pointer"
+            >Add to watchlist
+          </span>
+        </p>
+      </li>
+    </ul>
+
+    <ul>
+      <!-- NOT optimized, because we render all pages in one shot, as oppose to dynamic rendering -->
+      <li
+        v-for="pageNumber in moviesStore.state.popularMovies.total_pages"
+        :key="pageNumber"
+      >
+        <span
+          v-if="
+            Math.abs(pageNumber - moviesStore.state.popularMovies.page) < 3 ||
+            pageNumber === moviesStore.state.popularMovies.total_pages ||
+            pageNumber === 1
+          "
+          @click="moviesStore.fetchPopularMovies({ page: pageNumber })"
+          :class="{
+            current: moviesStore.state.popularMovies.page === pageNumber,
+            last:
+              pageNumber === moviesStore.state.popularMovies.total_pages &&
+              Math.abs(pageNumber - moviesStore.state.popularMovies.page) > 3,
+            first:
+              pageNumber === 1 &&
+              Math.abs(pageNumber - moviesStore.state.popularMovies.page) > 3
+          }"
+        >
+          {{ pageNumber }}
+        </span>
       </li>
     </ul>
   </div>
@@ -69,12 +119,14 @@ import { useMovies } from '@/composables/use-movies';
 
 export default defineComponent({
   name: 'PopularMoviesList',
+  computed: {},
   setup() {
     // This is composable function where state(data) gets stored and accessed
     const moviesStore = useMovies();
 
     // this return gives us an access to our data inside <template></template>
     // for example {{ moviesStore.state.popularMovies }}
+
     return {
       moviesStore
     };

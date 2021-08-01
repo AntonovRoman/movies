@@ -1,5 +1,11 @@
 import { computed, ComputedRef, reactive } from 'vue';
-import { Movie, SearchRequest } from '@/api/movies-api';
+import { UnwrapRef } from '@vue/reactivity';
+import {
+  Movie,
+  PaginatedRequest,
+  PaginatedResponse,
+  SearchRequest
+} from '@/api/movies-api';
 import { MOVIES_IMAGE_BASE_URL } from '@/constants';
 import { moviesApi } from '@/api/movies-api-impl';
 
@@ -7,8 +13,9 @@ import { moviesApi } from '@/api/movies-api-impl';
 // kinda like internal storage where we can cache/persist data
 // some info @link https://www.thisdot.co/blog/custom-composable-methods-with-vue-3
 export interface MoviesState {
-  popularMovies: Movie[];
+  popularMovies: PaginatedResponse;
   searchMovies: Movie[];
+  watchList: Movie[];
   loading: boolean;
   error?: Error;
   imageBasePath?: string;
@@ -17,7 +24,7 @@ export interface MoviesState {
 export interface MoviesStore {
   state: Readonly<MoviesState>;
 
-  fetchPopularMovies(): Promise<void>;
+  fetchPopularMovies(request?: PaginatedRequest): Promise<void>;
 
   searchMovies(request: SearchRequest): Promise<void>;
 
@@ -26,12 +33,24 @@ export interface MoviesStore {
   getBannerMovie(): ComputedRef<Movie>;
 
   clearSearchMovies(): void;
+
+  addToWatchlist(movie: UnwrapRef<Movie>): void;
+
+  removeFromWatchList(id: number): void;
+
+  inWatchListAlready(id: number): boolean;
 }
 
 // this can be exposed and accessed inside our views/components during setup stage
 const state = reactive<MoviesState>({
-  popularMovies: [],
+  popularMovies: {
+    results: [],
+    page: 0,
+    total_pages: 0,
+    total_results: 0
+  },
   searchMovies: [],
+  watchList: [],
   loading: false
 });
 
@@ -40,11 +59,14 @@ export const useMovies = (): MoviesStore => {
    * Performs an API call to fetch popular movies and updates state
    * @return {Promise<void>}
    */
-  const fetchPopularMovies = async (): Promise<void> => {
+  const fetchPopularMovies = async (
+    request?: PaginatedRequest
+  ): Promise<void> => {
+    const page = request?.page || 1;
     state.loading = true;
-    const result = await moviesApi.getPopularMovies();
+    const response = await moviesApi.getPopularMovies({ page });
     state.loading = false;
-    state.popularMovies = result?.results || [];
+    state.popularMovies = response;
   };
 
   /**
@@ -56,6 +78,13 @@ export const useMovies = (): MoviesStore => {
   const searchMovies = async (request: SearchRequest): Promise<void> => {
     const result = await moviesApi.searchMovies(request);
     state.searchMovies = result?.results || [];
+  };
+
+  /**
+   * Resets search result
+   */
+  const clearSearchMovies = (): void => {
+    state.searchMovies = [];
   };
 
   /**
@@ -71,17 +100,46 @@ export const useMovies = (): MoviesStore => {
     return `${MOVIES_IMAGE_BASE_URL}/${path}${poster}`;
   };
 
-  const clearSearchMovies = (): void => {
-    state.searchMovies = [];
-  };
-
+  /**
+   * Picks random movie from the popularMovies array for home banner
+   * @returns {ComputedRef<Movie>}
+   */
   const getBannerMovie = (): ComputedRef<Movie> => {
     return computed(
       () =>
-        state.popularMovies[
-          Math.floor(Math.random() * state.popularMovies.length)
+        state.popularMovies.results[
+          Math.floor(Math.random() * state.popularMovies.results.length)
         ]
     );
+  };
+
+  /**
+   * Checks if movie has already been added to the watchlist
+   * @param {number} id - movie id
+   * @returns {boolean}
+   */
+  const inWatchListAlready = (id: number): boolean => {
+    return computed(() =>
+      state.watchList.some((movieInWatchList) => movieInWatchList.id === id)
+    ).value;
+  };
+
+  /**
+   * Adds movies to the watchlist
+   * @param {Movie} movie
+   */
+  const addToWatchlist = (movie: Movie): void => {
+    if (!inWatchListAlready(movie.id)) {
+      state.watchList.push(movie);
+    }
+  };
+
+  /**
+   * Removes movie from the watchlist based on id
+   * @param {number} id - movie id
+   */
+  const removeFromWatchList = (id: number): void => {
+    state.watchList = state.watchList.filter((movie) => movie.id !== id);
   };
 
   return {
@@ -90,6 +148,9 @@ export const useMovies = (): MoviesStore => {
     searchMovies,
     getMovieImage,
     getBannerMovie,
-    clearSearchMovies
+    clearSearchMovies,
+    addToWatchlist,
+    removeFromWatchList,
+    inWatchListAlready
   };
 };
