@@ -1,14 +1,23 @@
 <template>
   <div v-if="moviesStore.state.loading" class="text-4xl">Loading...</div>
-  <section
-    v-else
-    class="hero"
-    :style="`background: url(${moviesStore.getMovieImage(
-      bannerMovie.poster_path
-    )}) no-repeat 50% 25%`"
-  >
-    {{ bannerMovie.overview }}
-    <!-- <span @click="moviesStore.addToWatchlist(bannerMovie)">ADD TO WATCHLIST</span> -->
+  <section class="hero" v-else> 
+    <div class="hero-wrap">
+      <div class="hero-shadow">
+        
+      </div>
+      <div class="hero-image"
+        
+        :style="`background-image: url(${moviesStore.getMovieImage(
+        bannerMovie.poster_path
+      )}) `"
+      ></div>
+      <div class="container flexbox-container">
+        <div class="hero-info flexbox-item">  
+          <h1>{{ bannerMovie.title }}</h1>
+          <a href="#" class="btn btn-green" @click="moviesStore.addToWatchlist(bannerMovie)">WATCH LATER</a>
+        </div>
+      </div>
+    </div>
   </section>
 </template>
 

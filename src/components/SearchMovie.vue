@@ -1,6 +1,6 @@
 <template>
   <section class="search-wrap">
-    <div class="wrap">
+    <div class="container wrap">
       <input
         placeholder="Search"
         v-model="searchInput"
@@ -23,19 +23,29 @@
           focus:placeholder-gray-400
         "
       />
-      <ul>
-        <li
-          v-for="foundMovie in moviesStore.state.searchMovies"
-          :key="foundMovie.id"
-        >
-          {{ foundMovie.title }}
-          <img
-            :src="moviesStore.getMovieImage(foundMovie.poster_path, 342)"
-            alt=""
-            class="w-6"
-          />
-        </li>
-      </ul>
+      <div class="search-results">
+        <div class="container wrap">
+          <div
+            class="search-quick-item"
+            v-for="foundMovie in moviesStore.state.searchMovies"
+            :key="foundMovie.id"
+          >
+            <router-link :to="`/movies/${foundMovie.id}`">
+              <img
+                class="poster"
+                :src="moviesStore.getMovieImage(foundMovie.poster_path, 342)"
+                alt="{{ foundMovie.title }}"
+              />
+              <div class="right">
+                <div class="title">
+                  {{ foundMovie.title }}
+                </div>
+              </div>
+            </router-link>
+          </div>
+
+        </div>
+      </div>
     </div>
   </section>
 </template>
