@@ -1,20 +1,23 @@
 <template>
   <div v-if="moviesStore.state.loading" class="text-4xl">Loading...</div>
-  <section class="hero" v-else> 
+  <section class="hero" v-else>
     <div class="hero-wrap">
-      <div class="hero-shadow">
-        
-      </div>
-      <div class="hero-image"
-        
+      <div class="hero-shadow"></div>
+      <div
+        class="hero-image"
         :style="`background-image: url(${moviesStore.getMovieImage(
-        bannerMovie.poster_path
-      )}) `"
+          bannerMovie.poster_path
+        )}) `"
       ></div>
       <div class="container flexbox-container">
-        <div class="hero-info flexbox-item">  
+        <div class="hero-info flexbox-item">
           <h1>{{ bannerMovie.title }}</h1>
-          <a href="#" class="btn btn-green" @click="moviesStore.addToWatchlist(bannerMovie)">WATCH LATER</a>
+          <a
+            href="#"
+            class="btn btn-green"
+            @click="moviesStore.addToWatchlist(bannerMovie)"
+            >WATCH LATER</a
+          >
         </div>
       </div>
     </div>
