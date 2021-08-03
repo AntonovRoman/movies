@@ -1,6 +1,7 @@
 import {
   Movie,
   MoviesApi,
+  PaginatedRequest,
   PaginatedResponse,
   SearchRequest
 } from '@/api/movies-api';
@@ -16,9 +17,15 @@ export class MoviesApiImpl implements MoviesApi {
     this.apiSecret = process.env.VUE_APP_MOVIES_SECRET_KEY;
     this.apiBaseUrl = process.env.VUE_APP_MOVIES_BASE_URL;
   }
+  getMovieRecommendations(id: number): Promise<PaginatedResponse> {
+    const url = `${this.apiBaseUrl}/movie/${id}/recommendations?api_key=${this.apiSecret}`;
+    return this.withFetch(url);
+  }
 
-  async getPopularMovies(): Promise<PaginatedResponse> {
-    const url = `${this.apiBaseUrl}/movie/popular?api_key=${this.apiSecret}&language=en-US&page=1`;
+  async getPopularMovies(
+    request?: PaginatedRequest
+  ): Promise<PaginatedResponse> {
+    const url = `${this.apiBaseUrl}/movie/popular?api_key=${this.apiSecret}&language=en-US&page=${request?.page}`;
     return this.withFetch(url);
   }
 

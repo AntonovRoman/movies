@@ -7,7 +7,7 @@ export interface MoviesApi {
    * @link https://developers.themoviedb.org/3/movies/get-popular-movies
    * @return {Promise<PaginatedResponse>}
    */
-  getPopularMovies(): Promise<PaginatedResponse>;
+  getPopularMovies(request: PaginatedRequest): Promise<PaginatedResponse>;
 
   /**
    * Fetches single movie details
@@ -29,6 +29,7 @@ export interface MoviesApi {
 
   // TODO: implement method - get the list of official genres for movies.
   // @link https://developers.themoviedb.org/3/genres/get-movie-list
+  getMovieRecommendations(id: number): Promise<PaginatedResponse>;
 
   // TODO: implement method - get a list of recommended movies for a movie.
   // @link https://developers.themoviedb.org/3/movies/get-movie-recommendations
@@ -68,11 +69,14 @@ export enum Status {
   CANCELED
 }
 
-export interface PaginatedResponse {
-  page?: number;
-  results?: Movie[];
-  total_results?: number;
-  total_pages?: number;
+export interface PaginatedResponse extends PaginationMetadata {
+  results: Movie[];
+}
+
+export interface PaginationMetadata {
+  page: number;
+  total_results: number;
+  total_pages: number;
 }
 
 export interface PaginatedRequest {
